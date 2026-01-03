@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinsky XXI - Booking Online</title>
+    <title>Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -12,95 +12,140 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            overflow-x: hidden;
             background: #0a0a0a;
-            color: white;
+            color: #fff;
         }
 
-        /* Navbar */
-        .navbar {
-            background: rgba(0, 0, 0, 0.95);
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            font-size: 2em;
+            font-size: 1.5em;
             font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            cursor: pointer;
         }
 
-        .nav-menu {
+        .nav-links {
             display: flex;
             gap: 30px;
-            list-style: none;
         }
 
-        .nav-menu li {
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 8px;
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
             transition: all 0.3s;
+            position: relative;
         }
 
-        .nav-menu li:hover {
-            background: rgba(102, 126, 234, 0.2);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            transition: width 0.3s;
         }
 
-        .nav-menu li.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
-        /* Hero Section */
         .hero {
-            height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
-                        url('bg.jpg');
-            background-size: cover;
-            background-position: center;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-bg span {
+            position: absolute;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(transparent, #00ff88, transparent);
+            animation: rain 3s linear infinite;
+        }
+
+        @keyframes rain {
+            0% { top: -200px; }
+            100% { top: 100%; }
+        }
+
+        .hero-content {
             text-align: center;
-            padding: 20px;
+            z-index: 1;
+            position: relative;
         }
 
         .hero h1 {
-            font-size: 4em;
+            font-size: 5em;
             margin-bottom: 20px;
-            animation: fadeInUp 1s;
+            background: linear-gradient(135deg, #00ff88, #00d4ff, #ff00ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.8)); }
         }
 
         .hero p {
             font-size: 1.5em;
-            margin-bottom: 40px;
-            animation: fadeInUp 1.5s;
-        }
-
-        .hero-btn {
-            padding: 15px 40px;
-            font-size: 1.2em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            animation: fadeInUp 2s;
-        }
-
-        .hero-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            color: #aaa;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.5s both;
         }
 
         @keyframes fadeInUp {
@@ -114,616 +159,679 @@
             }
         }
 
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 50px 20px;
+        .cta-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            border: none;
+            border-radius: 50px;
+            color: #0a0a0a;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            animation: fadeInUp 1s ease 1s both;
         }
 
-        .section {
-            display: none;
+        .cta-btn:hover {
+            transform: translateY(-5px);
         }
 
-        .section.active {
-            display: block;
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
 
-        /* Movies Section */
-        .section-title {
-            font-size: 2.5em;
-            margin-bottom: 30px;
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        section {
+            padding: 100px 50px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 3em;
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .movie-grid {
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
         }
 
-        .movie-card {
-            background: rgba(255, 255, 255, 0.05);
+        .profile-card {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .profile-img-wrapper {
+            width: 100%;
+            aspect-ratio: 1;
+            position: relative;
             border-radius: 20px;
             overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            padding: 3px;
         }
 
-        .movie-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        .profile-img-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #00ff88, #00d4ff, #ff00ea);
+            border-radius: 20px;
+            animation: rotate 4s linear infinite;
         }
 
-        .movie-poster-container {
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-img-inner {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            height: 400px;
+            z-index: 1;
             overflow: hidden;
         }
 
-        .movie-poster {
+        .profile-img-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .change-image-btn {
-            display: none;
+        .about-text h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #00ff88;
         }
 
-        .movie-info {
-            padding: 20px;
-        }
-
-        .movie-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .movie-details {
+        .about-text p {
+            font-size: 1.1em;
+            line-height: 1.8;
             color: #aaa;
             margin-bottom: 15px;
         }
 
-        .book-movie-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .book-movie-btn:hover {
-            transform: scale(1.02);
-        }
-
-        /* Theater Section */
-        .theater-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: 30px;
-        }
-
-        .screen {
-            background: linear-gradient(to bottom, #667eea, #764ba2);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin: 30px auto;
-            max-width: 600px;
-            border-radius: 10px 10px 50% 50%;
-            font-weight: bold;
-        }
-
-        .seats-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .row-label {
-            font-weight: bold;
-            color: #667eea;
-            width: 30px;
-            text-align: center;
-        }
-
-        .seat {
-            width: 40px;
-            height: 40px;
-            background: #4ade80;
-            border: 2px solid #22c55e;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .seat:hover:not(.occupied) {
-            transform: scale(1.1);
-        }
-
-        .seat.selected {
-            background: #667eea;
-            border-color: #5568d3;
-        }
-
-        .seat.occupied {
-            background: #ef4444;
-            border-color: #dc2626;
-            cursor: not-allowed;
-        }
-
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .legend-seat {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px 5px 0 0;
-        }
-
-        .booking-summary {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
-
-        .booking-summary h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 1.1em;
-        }
-
-        .total {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-top: 10px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid #667eea;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* About Section */
-        .about-content {
-            max-width: 800px;
+        .skills-container {
+            max-width: 1200px;
             margin: 0 auto;
-            line-height: 1.8;
-            font-size: 1.2em;
-        }
-
-        .about-content h2 {
-            color: #667eea;
-            margin: 30px 0 15px;
-        }
-
-        .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin-top: 40px;
         }
 
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
+        .skill-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
             padding: 30px;
-            border-radius: 15px;
             text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature-icon {
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.3);
+        }
+
+        .skill-icon {
             font-size: 3em;
             margin-bottom: 15px;
         }
 
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.95);
-            padding: 40px 50px;
-            text-align: center;
+        .skill-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00ff88;
+        }
+
+        .skill-level {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            transition: all 0.5s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) rotateY(5deg);
+            border-color: #00ff88;
+            box-shadow: 0 30px 60px rgba(0, 255, 136, 0.4);
+        }
+
+        .project-img {
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-img .placeholder-icon {
+            font-size: 5em;
+        }
+
+        .project-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 136, 0.2), transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .project-card:hover .project-img::after {
+            transform: translateX(100%);
+        }
+
+        .project-info {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-title {
+            font-size: 1.5em;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .project-desc {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 5px 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #00ff88;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            border: none;
+            border-radius: 10px;
+            color: #0a0a0a;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
             margin-top: 50px;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #00ff88;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #0a0a0a;
+            transform: translateY(-5px) rotate(360deg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3em; }
+            .about-container { grid-template-columns: 1fr; }
+            nav { padding: 20px; }
+            .nav-links { gap: 15px; }
+            section { padding: 60px 20px; }
+            .contact-form { padding: 30px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">🎬 PINSKY XXI</div>
-        <ul class="nav-menu">
-            <li class="active" onclick="showSection('home')">Home</li>
-            <li onclick="showSection('movies')">Film</li>
-            <li onclick="showSection('about')">Tentang</li>
-        </ul>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav>
+        <div class="logo">MY PORTFOLIO</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
 
-    <!-- Home Section -->
-    <section id="home" class="section active">
-        <div class="hero">
-            <h1>Selamat Datang di Pinsky XXI</h1>
-            <p>Nikmati pengalaman menonton film terbaik bersama kami</p>
-            <button class="hero-btn" onclick="showSection('movies')">Pesan Tiket Sekarang</button>
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <span style="left: 10%; animation-delay: 0s;"></span>
+            <span style="left: 20%; animation-delay: 0.5s;"></span>
+            <span style="left: 30%; animation-delay: 1s;"></span>
+            <span style="left: 40%; animation-delay: 1.5s;"></span>
+            <span style="left: 50%; animation-delay: 2s;"></span>
+            <span style="left: 60%; animation-delay: 2.5s;"></span>
+            <span style="left: 70%; animation-delay: 0.8s;"></span>
+            <span style="left: 80%; animation-delay: 1.8s;"></span>
+            <span style="left: 90%; animation-delay: 1.2s;"></span>
         </div>
+        <div class="hero-content">
+            <h1>CREATIVE DEVELOPER</h1>
+            <p>Transforming Ideas Into Digital Reality</p>
+            <button class="cta-btn" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
+                Explore My Work
+            </button>
+        </div>
+    </section>
 
-        <div class="container">
-            <h2 class="section-title">Mengapa Memilih Kami?</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎥</div>
-                    <h3>Film Terbaru</h3>
-                    <p>Selalu update dengan film-film terbaru dan terpopuler</p>
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-container">
+            <div class="profile-card">
+                <div class="profile-img-wrapper">
+                    <div class="profile-img-inner">
+                        <img src="foto 1.jpeg" alt="Profile Picture" id="profileImage">
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💺</div>
-                    <h3>Pilih Bangku</h3>
-                    <p>Sistem pemilihan bangku yang mudah dan interaktif</p>
+            </div>
+            <div class="about-text">
+                <h3>Hello, I'm a Digital Creator</h3>
+                <p>Saya adalah seorang mahasiswa yang passionate dalam menciptakan pengalaman digital yang luar biasa. Dengan fokus pada desain modern dan performa optimal, saya mengubah ide menjadi solusi digital yang powerful.</p>
+                <p>yang masih belajar dalam berbagai teknologi web modern, saya selalu berusaha untuk terus belajar dan berkembang mengikuti tren industri terkini.</p>
+                <p>Mari berkolaborasi untuk menciptakan sesuatu yang amazing!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>My Skills</h2>
+        <div class="skills-container">
+            <div class="skill-card">
+                <div class="skill-icon">⚡</div>
+                <div class="skill-name">Frontend Development</div>
+                <div class="skill-level">95%</div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🎨</div>
+                <div class="skill-name">UI/UX Design</div>
+                <div class="skill-level">90%</div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">⚙️</div>
+                <div class="skill-name">Backend Development</div>
+                <div class="skill-level">88%</div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">📱</div>
+                <div class="skill-name">Mobile Development</div>
+                <div class="skill-level">85%</div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🗄️</div>
+                <div class="skill-name">Database Management</div>
+                <div class="skill-level">87%</div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">☁️</div>
+                <div class="skill-name">Cloud Services</div>
+                <div class="skill-level">82%</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="sc1.png" alt="Border berita">
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎫</div>
-                    <h3>Booking Mudah</h3>
-                    <p>Proses booking cepat dan aman dalam hitungan detik</p>
+                <div class="project-info">
+                    <div class="project-title">Border berita</div>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">MongoDB</span>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⭐</div>
-                    <h3>Kualitas Terbaik</h3>
-                    <p>Layar besar, sound system premium, dan kenyamanan maksimal</p>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="sc2.png" alt="">
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Web Form Interaktif</div>
+                    <div class="project-tags">
+                        <span class="tag">Vue.js</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">WebSocket</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="sc3.png" alt="Web Form Interaktif">
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Web Form Interaktif</div>
+                    <div class="project-tags">
+                        <span class="tag">Angular</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">D3.js</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="sc4.png" alt="Web Bioskop">
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Web Bioskop</div>
+                    <div class="project-tags">
+                        <span class="tag">React Native</span>
+                        <span class="tag">GraphQL</span>
+                        <span class="tag">AWS</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="sc5.png" alt="Web Pribadi">
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Web Pribadi</div>
+                    <div class="project-tags">
+                        <span class="tag">Next.js</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="dg1.png" alt="Desaign">
+                </div>
+                <div class="project-info">
+                    <div class="project-title">Desaign</div>
+                    <div class="project-tags">
+                        <span class="tag">Laravel</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">Redis</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Movies Section -->
-    <section id="movies" class="section">
-        <div class="container">
-            <h2 class="section-title">Film Yang Sedang Tayang</h2>
-            <div class="movie-grid" id="movieGrid"></div>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section id="booking" class="section">
-        <div class="container">
-            <div class="theater-section">
-                <h2 class="section-title">Pilih Bangku Anda</h2>
-                <div class="screen">🎬 LAYAR 🎬</div>
-                
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-seat" style="background: #4ade80; border: 2px solid #22c55e;"></div>
-                        <span>Tersedia</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-seat" style="background: #667eea; border: 2px solid #5568d3;"></div>
-                        <span>Dipilih</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-seat" style="background: #ef4444; border: 2px solid #dc2626;"></div>
-                        <span>Terisi</span>
-                    </div>
+    <section id="contact">
+        <h2>Let's Work Together</h2>
+        <div class="contact-container">
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required placeholder="John Doe">
                 </div>
-
-                <div class="seats-container" id="seatsContainer"></div>
-
-                <div class="booking-summary">
-                    <h3>📋 Ringkasan Booking</h3>
-                    <div class="summary-item">
-                        <span>Film:</span>
-                        <span id="selectedMovie">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Bangku:</span>
-                        <span id="selectedSeats">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Jumlah Tiket:</span>
-                        <span id="ticketCount">0</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span>Total:</span>
-                        <span id="totalPrice">Rp 0</span>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="btn btn-secondary" onclick="showSection('movies')">Kembali</button>
-                        <button class="btn btn-primary" id="bookBtn" disabled>Konfirmasi Booking</button>
-                    </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" required placeholder="john@example.com">
                 </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" required placeholder="Project Inquiry">
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" required placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+            
+            <div class="social-links">
+                <div class="social-icon">📧</div>
+                <div class="social-icon">💼</div>
+                <div class="social-icon">🐙</div>
+                <div class="social-icon">🐦</div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">Tentang Pinsky XXI</h2>
-            <div class="about-content">
-                <p>Pinsky XXI adalah jaringan bioskop terkemuka di Indonesia yang telah melayani jutaan penonton sejak tahun 2000. Kami berkomitmen untuk memberikan pengalaman menonton film yang tak terlupakan dengan fasilitas modern dan layanan terbaik.</p>
-                
-                <h2>Visi Kami</h2>
-                <p>Menjadi destinasi hiburan pilihan utama keluarga Indonesia dengan menyajikan film-film berkualitas dalam suasana yang nyaman dan teknologi terkini.</p>
-                
-                <h2>Fasilitas</h2>
-                <p>✨ Layar Premium dengan teknologi proyeksi terbaru<br>
-                🔊 Dolby Atmos Sound System<br>
-                💺 Kursi premium yang nyaman<br>
-                🍿 Kantin dengan berbagai pilihan makanan dan minuman<br>
-                🅿️ Area parkir yang luas dan aman</p>
-
-                <h2>Hubungi Kami</h2>
-                <p>📞 Telepon: (021) 1234-5678<br>
-                📧 Email: info@pinskyxxi.com<br>
-                📍 Alamat: Jl. Sudirman No. 123, Jakarta</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Pinsky XXI. All rights reserved.</p>
-        <p>Made with ❤️ for movie lovers</p>
+    <footer>
+        <p>&copy; 2025 Harsya Portfolio. Designed & Developed with ❤️</p>
     </footer>
 
     <script>
-        const movies = [
-            {
-                id: 1,
-                title: "Snow White",
-                genre: "Drama, Adventure",
-                duration: "192 menit",
-                rating: "9.0",
-                image: "kartun.jpeg"
-            },
-            {
-                id: 2,
-                title: "The Batman",
-                genre: "Action, Crime",
-                duration: "176 menit",
-                rating: "8.5",
-                image: "the batman.jpg"
-            },
-            {
-                id: 3,
-                title: "Spider-Man",
-                genre: "Action, Crime",
-                duration: "148 menit",
-                rating: "8.8",
-                image: "spiderman.jpg"
-            },
-            {
-                id: 4,
-                title: "Toy Story 3",
-                genre: "Animasi, Komedi",
-                duration: "148 menit",
-                rating: "9.2",
-                image: "Toy Story 3.jpg"
-            },
-            {
-                id: 5,
-                title: "Sumala",
-                genre: "Horor, Drama",
-                duration: "169 menit",
-                rating: "9.1",
-                image: "sumala.jpg"
-            },
-            {
-                id: 6,
-                title: "Agak Laen (2025)",
-                genre: "Action, Komedi",
-                duration: "152 menit",
-                rating: "9.5",
-                image: "agak laen.jpg"
-            }
-        ];
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
 
-        const ticketPrice = 50000;
-        let selectedMovie = null;
-        let selectedSeats = [];
-        const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        const seatsPerRow = 10;
-        const occupiedSeats = ['A3', 'A4', 'B5', 'C2', 'D7', 'E8', 'F3'];
-
-        function showSection(sectionName) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionName).classList.add('active');
-
-            document.querySelectorAll('.nav-menu li').forEach(li => {
-                li.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function renderMovies() {
-            const grid = document.getElementById('movieGrid');
-            grid.innerHTML = movies.map(movie => `
-                <div class="movie-card">
-                    <div class="movie-poster-container">
-                        <input type="file" id="file-${movie.id}" accept="image/*" onchange="changeImage(${movie.id}, event)">
-                        <button class="change-image-btn" onclick="event.stopPropagation(); document.getElementById('file-${movie.id}').click()">
-                            📷 Ubah Gambar
-                        </button>
-                        <img src="${movie.image}" alt="${movie.title}" class="movie-poster" id="poster-${movie.id}">
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title">${movie.title}</div>
-                        <div class="movie-details">
-                            ${movie.genre} • ${movie.duration}<br>
-                            ⭐ Rating: ${movie.rating}/10
-                        </div>
-                        <button class="book-movie-btn" onclick="selectMovie(${movie.id})">
-                            🎫 Pesan Tiket
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function changeImage(movieId, event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const poster = document.getElementById(`poster-${movieId}`);
-                    poster.src = e.target.result;
-                    const movie = movies.find(m => m.id === movieId);
-                    movie.image = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function selectMovie(movieId) {
-            selectedMovie = movies.find(m => m.id === movieId);
-            selectedSeats = [];
-            
-            showSection('booking');
-            document.getElementById('selectedMovie').textContent = selectedMovie.title;
-            
-            renderSeats();
-            updateSummary();
-        }
-
-        function renderSeats() {
-            const container = document.getElementById('seatsContainer');
-            container.innerHTML = rows.map(row => `
-                <div class="row">
-                    <div class="row-label">${row}</div>
-                    ${Array.from({length: seatsPerRow}, (_, i) => {
-                        const seatId = `${row}${i + 1}`;
-                        const isOccupied = occupiedSeats.includes(seatId);
-                        return `<div class="seat ${isOccupied ? 'occupied' : ''}" 
-                                     data-seat="${seatId}" 
-                                     onclick="${isOccupied ? '' : 'toggleSeat(this)'}"></div>`;
-                    }).join('')}
-                </div>
-            `).join('');
-        }
-
-        function toggleSeat(seatElement) {
-            const seatId = seatElement.dataset.seat;
-            
-            if (selectedSeats.includes(seatId)) {
-                selectedSeats = selectedSeats.filter(s => s !== seatId);
-                seatElement.classList.remove('selected');
-            } else {
-                selectedSeats.push(seatId);
-                seatElement.classList.add('selected');
-            }
-            
-            updateSummary();
-        }
-
-        function updateSummary() {
-            const count = selectedSeats.length;
-            const total = count * ticketPrice;
-            
-            document.getElementById('selectedSeats').textContent = 
-                selectedSeats.length > 0 ? selectedSeats.join(', ') : '-';
-            document.getElementById('ticketCount').textContent = count;
-            document.getElementById('totalPrice').textContent = 
-                `Rp ${total.toLocaleString('id-ID')}`;
-            
-            document.getElementById('bookBtn').disabled = count === 0;
-        }
-
-        document.getElementById('bookBtn').addEventListener('click', () => {
-            if (selectedSeats.length > 0) {
-                alert(`✅ Booking Berhasil!\n\n🎬 Film: ${selectedMovie.title}\n💺 Bangku: ${selectedSeats.join(', ')}\n🎫 Jumlah: ${selectedSeats.length} tiket\n💰 Total: Rp ${(selectedSeats.length * ticketPrice).toLocaleString('id-ID')}\n\nTerima kasih telah memesan di Bioskop XXI!\nSilakan tunjukkan konfirmasi ini di loket.`);
-                
-                selectedSeats.forEach(seat => {
-                    occupiedSeats.push(seat);
-                });
-                
-                selectedSeats = [];
-                showSection('home');
-            }
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
         });
 
-        renderMovies();
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        document.querySelectorAll('a, button, .project-card, .skill-card, .social-icon').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                follower.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                follower.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            btn.textContent = 'Sending...';
+            
+            setTimeout(() => {
+                btn.textContent = '✓ Message Sent!';
+                setTimeout(() => {
+                    btn.textContent = 'Send Message';
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
+        }
     </script>
 </body>
 </html>
