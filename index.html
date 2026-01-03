@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinsky XXI - Booking Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: white;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-menu li:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .nav-menu li.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+                        url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.5s;
+        }
+
+        .hero-btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInUp 2s;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Movies Section */
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .movie-poster-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .change-image-btn {
+            display: none;
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .movie-details {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .book-movie-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .book-movie-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Theater Section */
+        .theater-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+        }
+
+        .screen {
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin: 30px auto;
+            max-width: 600px;
+            border-radius: 10px 10px 50% 50%;
+            font-weight: bold;
+        }
+
+        .seats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .row-label {
+            font-weight: bold;
+            color: #667eea;
+            width: 30px;
+            text-align: center;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            background: #4ade80;
+            border: 2px solid #22c55e;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .seat:hover:not(.occupied) {
+            transform: scale(1.1);
+        }
+
+        .seat.selected {
+            background: #667eea;
+            border-color: #5568d3;
+        }
+
+        .seat.occupied {
+            background: #ef4444;
+            border-color: #dc2626;
+            cursor: not-allowed;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-seat {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .booking-summary {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .booking-summary h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1em;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.2em;
+        }
+
+        .about-content h2 {
+            color: #667eea;
+            margin: 30px 0 15px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 40px 50px;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">🎬 PINSKY XXI</div>
+        <ul class="nav-menu">
+            <li class="active" onclick="showSection('home')">Home</li>
+            <li onclick="showSection('movies')">Film</li>
+            <li onclick="showSection('about')">Tentang</li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <h1>Selamat Datang di Pinsky XXI</h1>
+            <p>Nikmati pengalaman menonton film terbaik bersama kami</p>
+            <button class="hero-btn" onclick="showSection('movies')">Pesan Tiket Sekarang</button>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title">Mengapa Memilih Kami?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3>Film Terbaru</h3>
+                    <p>Selalu update dengan film-film terbaru dan terpopuler</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💺</div>
+                    <h3>Pilih Bangku</h3>
+                    <p>Sistem pemilihan bangku yang mudah dan interaktif</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎫</div>
+                    <h3>Booking Mudah</h3>
+                    <p>Proses booking cepat dan aman dalam hitungan detik</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Kualitas Terbaik</h3>
+                    <p>Layar besar, sound system premium, dan kenyamanan maksimal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section id="movies" class="section">
+        <div class="container">
+            <h2 class="section-title">Film Yang Sedang Tayang</h2>
+            <div class="movie-grid" id="movieGrid"></div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="section">
+        <div class="container">
+            <div class="theater-section">
+                <h2 class="section-title">Pilih Bangku Anda</h2>
+                <div class="screen">🎬 LAYAR 🎬</div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-seat" style="background: #4ade80; border: 2px solid #22c55e;"></div>
+                        <span>Tersedia</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-seat" style="background: #667eea; border: 2px solid #5568d3;"></div>
+                        <span>Dipilih</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-seat" style="background: #ef4444; border: 2px solid #dc2626;"></div>
+                        <span>Terisi</span>
+                    </div>
+                </div>
+
+                <div class="seats-container" id="seatsContainer"></div>
+
+                <div class="booking-summary">
+                    <h3>📋 Ringkasan Booking</h3>
+                    <div class="summary-item">
+                        <span>Film:</span>
+                        <span id="selectedMovie">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Bangku:</span>
+                        <span id="selectedSeats">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Jumlah Tiket:</span>
+                        <span id="ticketCount">0</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="totalPrice">Rp 0</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="showSection('movies')">Kembali</button>
+                        <button class="btn btn-primary" id="bookBtn" disabled>Konfirmasi Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">Tentang Pinsky XXI</h2>
+            <div class="about-content">
+                <p>Pinsky XXI adalah jaringan bioskop terkemuka di Indonesia yang telah melayani jutaan penonton sejak tahun 2000. Kami berkomitmen untuk memberikan pengalaman menonton film yang tak terlupakan dengan fasilitas modern dan layanan terbaik.</p>
+                
+                <h2>Visi Kami</h2>
+                <p>Menjadi destinasi hiburan pilihan utama keluarga Indonesia dengan menyajikan film-film berkualitas dalam suasana yang nyaman dan teknologi terkini.</p>
+                
+                <h2>Fasilitas</h2>
+                <p>✨ Layar Premium dengan teknologi proyeksi terbaru<br>
+                🔊 Dolby Atmos Sound System<br>
+                💺 Kursi premium yang nyaman<br>
+                🍿 Kantin dengan berbagai pilihan makanan dan minuman<br>
+                🅿️ Area parkir yang luas dan aman</p>
+
+                <h2>Hubungi Kami</h2>
+                <p>📞 Telepon: (021) 1234-5678<br>
+                📧 Email: info@pinskyxxi.com<br>
+                📍 Alamat: Jl. Sudirman No. 123, Jakarta</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Pinsky XXI. All rights reserved.</p>
+        <p>Made with ❤️ for movie lovers</p>
+    </footer>
+
+    <script>
+        const movies = [
+            {
+                id: 1,
+                title: "Snow White",
+                genre: "Drama, Adventure",
+                duration: "192 menit",
+                rating: "9.0",
+                image: "kartun.jpeg"
+            },
+            {
+                id: 2,
+                title: "The Batman",
+                genre: "Action, Crime",
+                duration: "176 menit",
+                rating: "8.5",
+                image: "the batman.jpg"
+            },
+            {
+                id: 3,
+                title: "Spider-Man",
+                genre: "Action, Crime",
+                duration: "148 menit",
+                rating: "8.8",
+                image: "spiderman.jpg"
+            },
+            {
+                id: 4,
+                title: "Toy Story 3",
+                genre: "Animasi, Komedi",
+                duration: "148 menit",
+                rating: "9.2",
+                image: "Toy Story 3.jpg"
+            },
+            {
+                id: 5,
+                title: "Sumala",
+                genre: "Horor, Drama",
+                duration: "169 menit",
+                rating: "9.1",
+                image: "sumala.jpg"
+            },
+            {
+                id: 6,
+                title: "Agak Laen (2025)",
+                genre: "Action, Komedi",
+                duration: "152 menit",
+                rating: "9.5",
+                image: "agak laen.jpg"
+            }
+        ];
+
+        const ticketPrice = 50000;
+        let selectedMovie = null;
+        let selectedSeats = [];
+        const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        const seatsPerRow = 10;
+        const occupiedSeats = ['A3', 'A4', 'B5', 'C2', 'D7', 'E8', 'F3'];
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionName).classList.add('active');
+
+            document.querySelectorAll('.nav-menu li').forEach(li => {
+                li.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderMovies() {
+            const grid = document.getElementById('movieGrid');
+            grid.innerHTML = movies.map(movie => `
+                <div class="movie-card">
+                    <div class="movie-poster-container">
+                        <input type="file" id="file-${movie.id}" accept="image/*" onchange="changeImage(${movie.id}, event)">
+                        <button class="change-image-btn" onclick="event.stopPropagation(); document.getElementById('file-${movie.id}').click()">
+                            📷 Ubah Gambar
+                        </button>
+                        <img src="${movie.image}" alt="${movie.title}" class="movie-poster" id="poster-${movie.id}">
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-details">
+                            ${movie.genre} • ${movie.duration}<br>
+                            ⭐ Rating: ${movie.rating}/10
+                        </div>
+                        <button class="book-movie-btn" onclick="selectMovie(${movie.id})">
+                            🎫 Pesan Tiket
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeImage(movieId, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const poster = document.getElementById(`poster-${movieId}`);
+                    poster.src = e.target.result;
+                    const movie = movies.find(m => m.id === movieId);
+                    movie.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function selectMovie(movieId) {
+            selectedMovie = movies.find(m => m.id === movieId);
+            selectedSeats = [];
+            
+            showSection('booking');
+            document.getElementById('selectedMovie').textContent = selectedMovie.title;
+            
+            renderSeats();
+            updateSummary();
+        }
+
+        function renderSeats() {
+            const container = document.getElementById('seatsContainer');
+            container.innerHTML = rows.map(row => `
+                <div class="row">
+                    <div class="row-label">${row}</div>
+                    ${Array.from({length: seatsPerRow}, (_, i) => {
+                        const seatId = `${row}${i + 1}`;
+                        const isOccupied = occupiedSeats.includes(seatId);
+                        return `<div class="seat ${isOccupied ? 'occupied' : ''}" 
+                                     data-seat="${seatId}" 
+                                     onclick="${isOccupied ? '' : 'toggleSeat(this)'}"></div>`;
+                    }).join('')}
+                </div>
+            `).join('');
+        }
+
+        function toggleSeat(seatElement) {
+            const seatId = seatElement.dataset.seat;
+            
+            if (selectedSeats.includes(seatId)) {
+                selectedSeats = selectedSeats.filter(s => s !== seatId);
+                seatElement.classList.remove('selected');
+            } else {
+                selectedSeats.push(seatId);
+                seatElement.classList.add('selected');
+            }
+            
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const count = selectedSeats.length;
+            const total = count * ticketPrice;
+            
+            document.getElementById('selectedSeats').textContent = 
+                selectedSeats.length > 0 ? selectedSeats.join(', ') : '-';
+            document.getElementById('ticketCount').textContent = count;
+            document.getElementById('totalPrice').textContent = 
+                `Rp ${total.toLocaleString('id-ID')}`;
+            
+            document.getElementById('bookBtn').disabled = count === 0;
+        }
+
+        document.getElementById('bookBtn').addEventListener('click', () => {
+            if (selectedSeats.length > 0) {
+                alert(`✅ Booking Berhasil!\n\n🎬 Film: ${selectedMovie.title}\n💺 Bangku: ${selectedSeats.join(', ')}\n🎫 Jumlah: ${selectedSeats.length} tiket\n💰 Total: Rp ${(selectedSeats.length * ticketPrice).toLocaleString('id-ID')}\n\nTerima kasih telah memesan di Bioskop XXI!\nSilakan tunjukkan konfirmasi ini di loket.`);
+                
+                selectedSeats.forEach(seat => {
+                    occupiedSeats.push(seat);
+                });
+                
+                selectedSeats = [];
+                showSection('home');
+            }
+        });
+
+        renderMovies();
+    </script>
+</body>
+</html>
